@@ -25,6 +25,7 @@ public class NoteEO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer noteId;
 
     @ManyToOne()

@@ -20,19 +20,15 @@ public class CaseService {
 
     private final NoteService noteService;
 
-    public void create(Case toCreate) {
-        UserEO userEO = UserEO.builder()
-                .firstName(toCreate.getUser().getFirstName())
-                .lastName(toCreate.getUser().getLastName())
-                .email(toCreate.getUser().getEmail())
-                .build();
+    private final UserService userService;
 
+    public void create(Case toCreate) {
         CaseEO caseEO = CaseEO.builder()
                 .title(toCreate.getTitle())
                 .description(toCreate.getDescription())
                 .severity(toCreate.getSeverity())
                 .status(toCreate.getStatus())
-                .user(userEO)
+                .user(userService.createIfNotExists(toCreate.getUser()))
                 .build();
 
         caseRepository.save(caseEO);

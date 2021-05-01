@@ -15,7 +15,7 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    public void create(User toCreate) {
+    public UserEO create(User toCreate) {
         UserEO userEO = UserEO.builder()
                 .firstName(toCreate.getFirstName())
                 .lastName(toCreate.getLastName())
@@ -23,15 +23,22 @@ public class UserService {
                 .build();
 
         userRepository.save(userEO);
+
+        return userEO;
     }
 
-    public boolean checkIfUserIdExists(Integer userId) {
-         return userRepository.findById(userId).isPresent();
+    public UserEO getUserById(Integer userId) {
+         return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Not found caseId"));
     }
 
-    public void createIfNotExists(User toCreate) {
-        if (checkIfUserIdExists(toCreate.getUserId())) {
-            create(toCreate);
+    public UserEO createIfNotExists(User toCreate) {
+        UserEO userEO;
+        try {
+            userEO = getUserById(toCreate.getUserId());
+        } catch (RuntimeException e) {
+            userEO = create(toCreate);
         }
+
+        return userEO;
     }
 }

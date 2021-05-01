@@ -11,6 +11,11 @@ import java.util.List;
 
 public interface CaseRepository extends JpaRepository<CaseEO, Integer> {
 
+    @Query(
+            value = "SELECT c.* FROM cases c " +
+                    "WHERE c.status = ?1 ",
+            nativeQuery = true
+    )
     List<CaseEO> findAllByStatus(String status);
 
     @Query(
@@ -19,5 +24,5 @@ public interface CaseRepository extends JpaRepository<CaseEO, Integer> {
                     "AND c.status = ?2 ",
             nativeQuery = true
     )
-    List<CaseEO> findByUserIdAndStatus(Integer caseId, String status);
+    List<CaseEO> findByUserIdAndStatus(Integer userId, String status);
 }
