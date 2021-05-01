@@ -1,0 +1,38 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    password:
+    tomcat:
+      max-active: 50
+      max-idle: 20
+      max-wait: 20000
+      min-idle: 15
+    url: jdbc:mysql://localhost:3306/case_manager?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+  jpa:
+    properties:
+#      generate-ddl: true
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+#        ddl-auto: create
+        id:
+          new_generator_mappings: false
+      javax:
+        persistence:
+          schema-generation:
+            create-source: metadata
+            scripts:
+              action: create
+              create-target: create.sql
+  profiles:
+    active: local
+logging:
+  level:
+    com:
+      diets: INFO
+    org:
+      hibernate:
+        SQL: INFO
+        type: INFO
